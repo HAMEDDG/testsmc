@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success Management Consulting - Plateforme</title>
+    
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .logo {
+  width: 140px;              /* taille du cercle */
+  height: 140px;
+  border-radius: 50%;
+  background-color: #fff;    /* fond du cercle */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 20px;       /* centré */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* optionnel */
+}
+
+.logo-img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;       /* important */
+}
+
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #28a745 0%, #007bff 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #28a745 0%, #007bff 100%);
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .logo {
+            background: white;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-text {
+            font-size: 14px;
+            font-weight: bold;
+            color: #28a745;
+            text-align: center;
+            line-height: 1.2;
+            padding: 10px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+        }
+
+        .form-container {
+            padding: 40px 30px;
+        }
+
+        .form-screen {
+            display: none;
+        }
+
+        .form-screen.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-title {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.12);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #28a745 0%, #007bff 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.35);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .link-text {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .link-text a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .link-text a:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .password-strength {
+            margin-top: 8px;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s ease;
+        }
+
+        .strength-weak {
+            width: 33%;
+            background: #f44336;
+        }
+
+        .strength-medium {
+            width: 66%;
+            background: #ff9800;
+        }
+
+        .strength-strong {
+            width: 100%;
+            background: #4caf50;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 0;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .form-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                 <img src="logo.png" alt="Success Management Consulting" class="logo-img">
+            </div>
+            <h1>Bienvenue</h1>
+            <p>Plateforme de gestion</p>
+        </div>
+
+        <div class="form-container">
+            <!-- Écran de connexion -->
+            <div id="loginScreen" class="form-screen active">
+                <h2 class="form-title">Connexion</h2>
+                <div id="loginAlert" class="alert"></div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" required placeholder="votre@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Mot de passe</label>
+                        <input type="password" id="loginPassword" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn">Se connecter</button>
+                </form>
+                <div class="link-text">
+                    <a onclick="showScreen('resetScreen')">Mot de passe oublié ?</a>
+                </div>
+                <div class="link-text">
+                    Pas encore de compte ? <a onclick="showScreen('registerScreen')">S'inscrire</a>
+                </div>
+            </div>
+
+            <!-- Écran d'inscription -->
+            <div id="registerScreen" class="form-screen">
+                <h2 class="form-title">Créer un compte</h2>
+                <div id="registerAlert" class="alert"></div>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="registerName">Nom complet</label>
+                        <input type="text" id="registerName" required placeholder="Jean Dupont">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" id="registerEmail" required placeholder="votre@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Mot de passe</label>
+                        <input type="password" id="registerPassword" required placeholder="••••••••">
+                        <div class="password-strength">
+                            <div id="passwordStrengthBar" class="password-strength-bar"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerConfirmPassword">Confirmer le mot de passe</label>
+                        <input type="password" id="registerConfirmPassword" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn">Créer mon compte</button>
+                </form>
+                <div class="link-text">
+                    Déjà un compte ? <a onclick="showScreen('loginScreen')">Se connecter</a>
+                </div>
+            </div>
+
+            <!-- Écran de réinitialisation -->
+            <div id="resetScreen" class="form-screen">
+                <h2 class="form-title">Réinitialiser le mot de passe</h2>
+                <div id="resetAlert" class="alert"></div>
+                <form id="resetForm">
+                    <div class="form-group">
+                        <label for="resetEmail">Email</label>
+                        <input type="email" id="resetEmail" required placeholder="votre@email.com">
+                    </div>
+                    <button type="submit" class="btn">Envoyer le lien de réinitialisation</button>
+                </form>
+                <div class="link-text">
+                    <a onclick="showScreen('loginScreen')">Retour à la connexion</a>
+                </div>
+            </div>
+
+            <!-- Écran de succès -->
+            <div id="successScreen" class="form-screen">
+                <h2 class="form-title">✓ Connexion réussie !</h2>
+                <div class="alert success show">
+                    Bienvenue sur la plateforme Success Management Consulting
+                </div>
+                <p style="text-align: center; color: #666; margin: 20px 0;">
+                    Vous êtes maintenant connecté(e) en tant que <strong id="userEmail"></strong>
+                </p>
+                <button class="btn" onclick="logout()">Se déconnecter</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Gestion du stockage local
+        const users = JSON.parse(localStorage.getItem('smc_users') || '[]');
+        let currentUser = JSON.parse(localStorage.getItem('smc_current_user') || 'null');
+
+        // Vérifier si un utilisateur est déjà connecté
+        if (currentUser) {
+            showSuccessScreen(currentUser.email);
+        }
+
+        // Navigation entre les écrans
+        function showScreen(screenId) {
+            document.querySelectorAll('.form-screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+            
+            // Réinitialiser les alertes
+            document.querySelectorAll('.alert').forEach(alert => {
+                alert.classList.remove('show');
+            });
+        }
+
+        function showAlert(alertId, message, type) {
+            const alert = document.getElementById(alertId);
+            alert.textContent = message;
+            alert.className = `alert ${type} show`;
+            setTimeout(() => alert.classList.remove('show'), 5000);
+        }
+
+        // Vérification de la force du mot de passe
+        document.getElementById('registerPassword')?.addEventListener('input', function(e) {
+            const password = e.target.value;
+            const strengthBar = document.getElementById('passwordStrengthBar');
+            
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+            if (password.match(/[0-9]/)) strength++;
+            if (password.match(/[^a-zA-Z0-9]/)) strength++;
+            
+            strengthBar.className = 'password-strength-bar';
+            if (strength >= 3) strengthBar.classList.add('strength-strong');
+            else if (strength >= 2) strengthBar.classList.add('strength-medium');
+            else if (strength >= 1) strengthBar.classList.add('strength-weak');
+        });
+
+        // Formulaire d'inscription
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            
+            // Validation
+            if (password.length < 8) {
+                showAlert('registerAlert', 'Le mot de passe doit contenir au moins 8 caractères', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showAlert('registerAlert', 'Les mots de passe ne correspondent pas', 'error');
+                return;
+            }
+            
+            // Vérifier si l'email existe déjà
+            if (users.find(u => u.email === email)) {
+                showAlert('registerAlert', 'Un compte existe déjà avec cet email', 'error');
+                return;
+            }
+            
+            // Créer le compte
+            const newUser = { name, email, password };
+            users.push(newUser);
+            localStorage.setItem('smc_users', JSON.stringify(users));
+            
+            showAlert('registerAlert', 'Compte créé avec succès ! Redirection...', 'success');
+            setTimeout(() => {
+                this.reset();
+                showScreen('loginScreen');
+                showAlert('loginAlert', 'Vous pouvez maintenant vous connecter', 'success');
+            }, 1500);
+        });
+
+        // Formulaire de connexion
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                currentUser = { email: user.email, name: user.name };
+                localStorage.setItem('smc_current_user', JSON.stringify(currentUser));
+                showSuccessScreen(user.email);
+            } else {
+                showAlert('loginAlert', 'Email ou mot de passe incorrect', 'error');
+            }
+        });
+
+        // Formulaire de réinitialisation
+        document.getElementById('resetForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('resetEmail').value;
+            const user = users.find(u => u.email === email);
+            
+            if (user) {
+                showAlert('resetAlert', 'Un email de réinitialisation a été envoyé à ' + email, 'success');
+                setTimeout(() => {
+                    this.reset();
+                    showScreen('loginScreen');
+                }, 2000);
+            } else {
+                showAlert('resetAlert', 'Aucun compte trouvé avec cet email', 'error');
+            }
+        });
+
+        // Afficher l'écran de succès
+        function showSuccessScreen(email) {
+            document.getElementById('userEmail').textContent = email;
+            showScreen('successScreen');
+        }
+
+        // Déconnexion
+        function logout() {
+            localStorage.removeItem('smc_current_user');
+            currentUser = null;
+            showScreen('loginScreen');
+            document.getElementById('loginForm').reset();
+        }
+    </script>
+</body>
+</html>
